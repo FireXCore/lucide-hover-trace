@@ -1,0 +1,62 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Lucide Hover Trace logo">
+  <defs>
+    <linearGradient id="bg" x1="96" y1="72" x2="416" y2="440" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0B1220"/>
+      <stop offset="1" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="ring" x1="128" y1="128" x2="384" y2="384" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#38BDF8"/>
+      <stop offset="0.55" stop-color="#60A5FA"/>
+      <stop offset="1" stop-color="#A78BFA"/>
+    </linearGradient>
+    <linearGradient id="trace" x1="156" y1="176" x2="360" y2="336" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#E2E8F0"/>
+      <stop offset="0.48" stop-color="#93C5FD"/>
+      <stop offset="1" stop-color="#C4B5FD"/>
+    </linearGradient>
+    <filter id="shadow" x="72" y="72" width="368" height="368" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#020617" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <rect x="40" y="40" width="432" height="432" rx="112" fill="url(#bg)"/>
+  <rect x="40.5" y="40.5" width="431" height="431" rx="111.5" stroke="#94A3B8" stroke-opacity="0.16"/>
+
+  <g filter="url(#shadow)">
+    <circle cx="256" cy="256" r="124" stroke="url(#ring)" stroke-width="18" opacity="0.95"/>
+    <circle cx="256" cy="256" r="88" stroke="#94A3B8" stroke-opacity="0.20" stroke-width="2"/>
+
+    <path
+      d="M188 214C188 196.879 201.879 183 219 183H290C313.196 183 332 201.804 332 225V243C332 262.33 316.33 278 297 278H239C215.804 278 197 296.804 197 320"
+      stroke="url(#trace)"
+      stroke-width="22"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+
+    <path
+      d="M188 256H288"
+      stroke="url(#trace)"
+      stroke-width="22"
+      stroke-linecap="round"
+    />
+
+    <path
+      d="M284 220L318 186"
+      stroke="url(#trace)"
+      stroke-width="22"
+      stroke-linecap="round"
+    />
+
+    <path
+      d="M284 292L318 326"
+      stroke="url(#trace)"
+      stroke-width="22"
+      stroke-linecap="round"
+    />
+
+    <circle cx="332" cy="176" r="10" fill="#E2E8F0"/>
+    <circle cx="352" cy="196" r="5" fill="#93C5FD"/>
+    <circle cx="162" cy="338" r="6" fill="#A78BFA"/>
+  </g>
+</svg>

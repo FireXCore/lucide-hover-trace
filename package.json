@@ -1,0 +1,45 @@
+{
+  "name": "lucide-hover-trace",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Professional React utility for tracing Lucide SVG strokes on hover or focus.",
+  "keywords": [
+    "react",
+    "lucide",
+    "lucide-react",
+    "svg",
+    "animation",
+    "hover",
+    "stroke-trace",
+    "typescript"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "typecheck": "tsc --noEmit",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "lucide-react": "^1.21.0",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.2",
+    "typescript": "^6.0.3",
+    "vite": "^8.0.16"
+  },
+  "homepage": "https://firexcore.com",
+  "author": "Farbod Akvan",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FireXCore"
+  },
+  "bugs": {
+    "url": "https://github.com/FireXCore"
+  }
+}
