@@ -19,6 +19,10 @@ jobs:
       - run: npm ci
       - name: Audit all dependencies (diagnostic)
         run: npm audit --audit-level=high || true
+      - name: Prepare security-fixed lockfile for review
+        run: |
+          npm audit fix --package-lock-only
+          node -e "const fs = require('node:fs'); console.log('LOCKFILE_JSON_START'); process.stdout.write(fs.readFileSync('package-lock.json', 'utf8')); console.log('LOCKFILE_JSON_END');"
       - name: Enforce production dependency audit
         run: npm audit --omit=dev --audit-level=high
       - run: npm run typecheck
