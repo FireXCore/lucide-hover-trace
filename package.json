@@ -1,6 +1,6 @@
 {
   "name": "lucide-hover-trace",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "type": "module",
   "description": "Accessible, dependency-light SVG stroke trace animations for React and Lucide.",
   "keywords": [

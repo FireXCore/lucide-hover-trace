@@ -2,26 +2,53 @@ name: Publish to npm (OIDC)
 on:
   release:
     types: [published]
+
 permissions:
   contents: read
-  id-token: write
+
 jobs:
   publish:
     if: github.repository == 'FireXCore/lucide-hover-trace' && !github.event.release.prerelease
     runs-on: ubuntu-latest
     environment: npm-publish
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           persist-credentials: false
+          fetch-depth: 0
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: "24"
           registry-url: "https://registry.npmjs.org"
           package-manager-cache: false
+      - name: Install reviewed npm CLI with OIDC support
+        run: npm install --global npm@11.21.3
+      - name: Verify release identity and main ancestry
+        shell: bash
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          set -euo pipefail
+          PACKAGE_NAME="$(node -p 'require("./package.json").name')"
+          EXPECTED_TAG="v$(node -p 'require("./package.json").version')"
+          if [[ "$PACKAGE_NAME" != "lucide-hover-trace" ]]; then
+            echo "::error::Unexpected package identity: $PACKAGE_NAME"
+            exit 1
+          fi
+          if [[ "$RELEASE_TAG" != "$EXPECTED_TAG" ]]; then
+            echo "::error::Release tag $RELEASE_TAG does not match package $EXPECTED_TAG"
+            exit 1
+          fi
+          git fetch origin main
+          git merge-base --is-ancestor "$GITHUB_SHA" origin/main
       - run: npm ci
-      - run: npm audit --omit=dev --audit-level=high
+      - run: npm audit --audit-level=high
       - run: npm run typecheck
       - run: npm run build
       - run: npm test
-      - run: npm publish --access public
+      - run: npm pack --dry-run
+      - name: Publish with npm Trusted Publishing (OIDC)
+        run: npm publish --access public
