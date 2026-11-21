@@ -1,9 +1,8 @@
 {
   "name": "lucide-hover-trace",
-  "private": true,
-  "version": "1.0.0",
+  "version": "2.0.0",
   "type": "module",
-  "description": "Professional React utility for tracing Lucide SVG strokes on hover or focus.",
+  "description": "Accessible, dependency-light SVG stroke trace animations for React and Lucide.",
   "keywords": [
     "react",
     "lucide",
@@ -12,34 +11,56 @@
     "animation",
     "hover",
     "stroke-trace",
-    "typescript"
+    "typescript",
+    "web-animations"
   ],
   "license": "MIT",
+  "author": "Farbod Akvan",
+  "homepage": "https://firexcore.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FireXCore/lucide-hover-trace.git"
+  },
+  "bugs": {
+    "url": "https://github.com/FireXCore/lucide-hover-trace/issues"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
     "typecheck": "tsc --noEmit",
-    "preview": "vite preview"
+    "build:lib": "vite build --config vite.lib.config.ts && tsc -p tsconfig.build.json",
+    "build:demo": "vite build --outDir demo-dist",
+    "build": "npm run build:lib && npm run build:demo",
+    "test": "node --test tests/*.test.mjs",
+    "preview": "vite preview --outDir demo-dist"
   },
-  "dependencies": {
-    "lucide-react": "^1.21.0",
-    "react": "^19.2.7",
-    "react-dom": "^19.2.7"
+  "peerDependencies": {
+    "lucide-react": ">=0.400.0",
+    "react": ">=18.2.0"
   },
   "devDependencies": {
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.2",
+    "lucide-react": "^1.21.0",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
     "typescript": "^6.0.3",
     "vite": "^8.0.16"
-  },
-  "homepage": "https://firexcore.com",
-  "author": "Farbod Akvan",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/FireXCore"
-  },
-  "bugs": {
-    "url": "https://github.com/FireXCore"
   }
 }

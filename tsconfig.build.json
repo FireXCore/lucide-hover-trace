@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "rootDir": "./src",
+    "outDir": "./dist"
+  },
+  "include": ["src/index.ts", "src/animation.ts", "src/components/**/*.tsx", "src/hooks/**/*.ts", "src/lib/**/*.ts"]
+}
