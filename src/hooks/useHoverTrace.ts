@@ -1,50 +1,33 @@
-import { useState } from "react"
-import type { LucideIcon } from "lucide-react"
-import { useStrokeTrace, type StrokeTraceOptions } from "./useStrokeTrace"
+import { useState } from "react";
+import type { FocusEvent, HTMLAttributes } from "react";
+import type { LucideIcon } from "lucide-react";
+import { useStrokeTrace, type StrokeTraceOptions } from "./useStrokeTrace";
 
-export interface HoverTraceOptions
-  extends Omit<StrokeTraceOptions, "active" | "selector"> {}
-
+export interface HoverTraceOptions extends Omit<StrokeTraceOptions, "active" | "selector"> {}
 export interface HoverTraceResult {
-  active: boolean
-  iconRef: ReturnType<typeof useStrokeTrace>
-  triggerProps: {
-    onPointerEnter: () => void
-    onPointerLeave: () => void
-    onFocus: () => void
-    onBlur: () => void
-  }
+  active: boolean;
+  iconRef: ReturnType<typeof useStrokeTrace>;
+  triggerProps: Pick<HTMLAttributes<HTMLElement>, "onPointerEnter" | "onPointerLeave" | "onFocus" | "onBlur">;
 }
 
-/**
- * Renderless hover/focus controller for icon traces.
- * Attach `triggerProps` to the actual hoverable element and `iconRef` to the
- * Lucide icon you want to animate.
- */
+/** Separate pointer/focus flags prevent stopping a trace while the other input is active. */
 export function useHoverTrace(options: HoverTraceOptions = {}): HoverTraceResult {
-  const [active, setActive] = useState(false)
-  const iconRef = useStrokeTrace({
-    active,
-    durationMs: options.durationMs,
-    staggerMs: options.staggerMs,
-    easing: options.easing,
-    resetOnLeave: options.resetOnLeave,
-  })
+  const [hovered, setHovered] = useState(false);
+  const [focused, setFocused] = useState(false);
+  const active = hovered || focused;
+  const iconRef = useStrokeTrace({ ...options, active });
 
-  return {
-    active,
-    iconRef,
-    triggerProps: {
-      onPointerEnter: () => setActive(true),
-      onPointerLeave: () => setActive(false),
-      onFocus: () => setActive(true),
-      onBlur: () => setActive(false),
-    },
+  function onBlur(event: FocusEvent<HTMLElement>) {
+    if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setFocused(false);
   }
+  return {
+    active, iconRef,
+    triggerProps: {
+      onPointerEnter: () => setHovered(true),
+      onPointerLeave: () => setHovered(false),
+      onFocus: () => setFocused(true),
+      onBlur,
+    },
+  };
 }
-
-/**
- * Type helper for docs and examples only.
- * Keeping the icon type nearby makes copy-paste usage less error prone.
- */
-export type HoverTraceIcon = LucideIcon
+export type HoverTraceIcon = LucideIcon;
