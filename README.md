@@ -1,122 +1,59 @@
-# Lucide Hover Trace
+# Lucide Hover Trace 2.0
 
-A polished React utility for tracing Lucide SVG strokes on hover or focus.
+Accessible, dependency-light SVG stroke tracing for **React + Lucide**. Built by [FireXCore](https://firexcore.com).
 
-![Lucide Hover Trace logo](./public/logo.svg)
-
-**Project:** FireXCore  
-**Author:** Farbod Akvan  
-**Website:** https://firexcore.com  
-**GitHub:** https://github.com/FireXCore
-
-## What this package does
-
-Lucide icons are stroke-based SVGs, which makes them ideal for a clean draw-on-hover effect. This project keeps that effect local, accessible, and predictable:
-
-- traces the full SVG geometry, not only `path`
-- supports hover, focus, and icon-only controls
-- respects `prefers-reduced-motion`
-- avoids global CSS hacks
-- keeps the animation logic reusable and lightweight
-
-## Installation
+## Install
 
 ```bash
-npm install
+npm install lucide-hover-trace lucide-react
 ```
 
-## Usage
+React 18.2+ and Lucide React are peer dependencies.
 
-### Trace a full button or row
-
-Use `useHoverTrace` when the entire control should trigger the animation.
+## Quick start
 
 ```tsx
-import { ChevronRight } from "lucide-react"
-import { useHoverTrace } from "./hooks/useHoverTrace"
+import { Sparkles } from "lucide-react";
+import { TraceIcon, useHoverTrace } from "lucide-hover-trace";
 
-export function RowAction() {
-  const { triggerProps, iconRef } = useHoverTrace({ durationMs: 780 })
-
-  return (
-    <button type="button" className="row-action" {...triggerProps}>
-      <ChevronRight ref={iconRef} className="row-action__icon" size={16} strokeWidth={1.8} />
-      <span>Open request</span>
-    </button>
-  )
+function IconButton() {
+  return <TraceIcon icon={Sparkles} label="Open animations" mode="ping-pong" />;
 }
-```
-
-### Trace a standalone icon
-
-Use `TraceIcon` when the icon itself is the control target.
-
-```tsx
-import { Plus } from "lucide-react"
-import { TraceIcon } from "./components/TraceIcon"
-
-export function CreateButton() {
-  return <TraceIcon icon={Plus} className="text-primary" />
+function FullButton() {
+  const { triggerProps, iconRef } = useHoverTrace({ durationMs: 700 });
+  return (
+    <button type="button" {...triggerProps}>
+      <Sparkles ref={iconRef} size={20} aria-hidden="true" /> Animate
+    </button>
+  );
 }
 ```
 
 ## API
 
-### `useHoverTrace(options)`
+- `TraceIcon`: with `label`, renders an accessible native button; without, a decorative span.
+- `useHoverTrace(options)`: apply `triggerProps` to the interactive parent and `iconRef` to the Lucide icon.
+- `useStrokeTrace(options)`: headless native SVG animation engine.
 
-Renderless hover controller for a Lucide icon.
+Common options: `mode` (`draw`, `reverse`, `redraw`, `ping-pong`), `durationMs`, `staggerMs`, `simultaneous`, `easing`, `replayKey`, `active`, `resetOnLeave`, `selector`.
 
-**Options**
+The engine covers path, line, circle, rect, polyline, polygon, ellipse and respects dynamic `prefers-reduced-motion`. Only animations created by this library are cancelled. Existing inline SVG styles are restored.
 
-- `durationMs`: animation duration in milliseconds. Default `900`
-- `staggerMs`: delay between SVG elements in milliseconds. Default `70`
-- `easing`: CSS timing function. Default `cubic-bezier(0.2, 0.8, 0.2, 1)`
-- `resetOnLeave`: restore the icon cleanly when hover ends. Default `true`
-
-**Returns**
-
-- `triggerProps`: spread these on the hoverable control
-- `iconRef`: attach this ref directly to the Lucide icon
-- `active`: current traced state
-
-### `TraceIcon`
-
-Convenience component for standalone icon buttons.
-
-**Props**
-
-- `icon`: a Lucide icon component
-- `className`: icon class name
-- `containerClassName`: wrapper class name
-- `size`: icon size in pixels
-- `strokeWidth`: icon stroke width
-- `durationMs`: trace duration
-- `staggerMs`: per-element stagger
-- `resetOnLeave`: clean reset behavior
-- `active`: controlled traced state
-- `decorative`: set `false` only when the icon needs its own accessible label
-- `title`: optional SVG title
-
-## Implementation notes
-
-The hook traces these SVG geometry elements:
-
-- `path`
-- `line`
-- `circle`
-- `rect`
-- `polyline`
-- `polygon`
-
-It reads each element’s total length, sets `stroke-dasharray`, and animates `stroke-dashoffset` from full length to zero. The result is a clean stroke-drawing effect without relying on global stylesheet overrides.
-
-## Demo
-
-Run the demo app locally:
+## Commands
 
 ```bash
+npm ci
+npm run typecheck
+npm run build
+npm test
 npm run dev
 ```
+
+The build creates ESM/CJS modules and TypeScript declarations in `dist/` and a separate Vite demo in `demo-dist/`.
+
+## Publishing
+
+Use npm Trusted Publishing with GitHub Actions OIDC instead of permanent npm tokens. In your npm package settings, register `FireXCore/lucide-hover-trace`, workflow `publish.yml`, GitHub environment `npm-publish`, and allow `npm publish`. Do this **before** creating the GitHub release. First-time publishing may require npm account authorization or initial package ownership registration.
 
 ## License
 

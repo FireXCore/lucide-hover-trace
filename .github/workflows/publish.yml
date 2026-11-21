@@ -1,0 +1,26 @@
+name: Publish to npm (OIDC)
+on:
+  release:
+    types: [published]
+permissions:
+  contents: read
+  id-token: write
+jobs:
+  publish:
+    if: github.repository == 'FireXCore/lucide-hover-trace' && !github.event.release.prerelease
+    runs-on: ubuntu-latest
+    environment: npm-publish
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          registry-url: "https://registry.npmjs.org"
+          package-manager-cache: false
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run build
+      - run: npm test
+      - run: npm publish --access public
