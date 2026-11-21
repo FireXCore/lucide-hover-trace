@@ -34,7 +34,7 @@ export function TraceIcon({
   });
   const content = (
     <Icon ref={svgRef} className={className} size={size} strokeWidth={strokeWidth}
-      aria-hidden={decorative || !!label ? true : undefined} focusable="false" title={title} />
+      aria-hidden={decorative || !!label ? true : undefined} focusable="false" aria-label={!decorative && !label ? title : undefined} />
   );
   if (!label) {
     return (
